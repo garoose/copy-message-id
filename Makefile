@@ -1,5 +1,5 @@
 SRC=chrome/*
-TOPFILES=install.rdf chrome.manifest LICENSE
+TOPFILES=manifest.json chrome.manifest LICENSE
 
 XPI_NAME=copy-message-id@j.kahn.xpi
 
