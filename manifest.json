@@ -8,8 +8,15 @@
 	},
 	"name": "Copy Message ID",
 	"description": "Adds a button to the message view toolbar to copy the message ID to the clipboard",
-	"version": "1.0.3",
-	"legacy": {
-		"type": "xul"
-	}
+	"options_ui": {
+		"page": "options/options.html"
+	},
+	"permissions": ["storage", "messagesRead", "clipboardWrite"],
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"browser_action": {
+		"default_title": "Copy Message ID"
+	},
+	"version": "1.1.0"
 }
