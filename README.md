@@ -13,5 +13,7 @@ here](https://addons.mozilla.org/en-US/thunderbird/addon/copy-message-id/)
 
 ### Install it manually
 
-Copy the files to your local extensions directory or create a .xpi by
-running `make` and copy that to the same place.
+1. Checkout this repo
+2. Run `make` to generate the `xpi` file.
+3. In Thunderbird, go to the `Add-ons Manager`.
+4. Click `Install Add-on From File...` and select the `xpi` file from step 2.
