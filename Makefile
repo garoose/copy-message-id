@@ -1,5 +1,4 @@
-SRC=chrome/*
-TOPFILES=manifest.json chrome.manifest LICENSE
+FILES=manifest.json background.js options/* icons/* LICENSE
 
 XPI_NAME=copy-message-id@j.kahn.xpi
 
@@ -7,7 +6,7 @@ XPI_NAME=copy-message-id@j.kahn.xpi
 
 all: $(XPI_NAME)
 
-$(XPI_NAME): $(SRC) $(TOPFILES)
+$(XPI_NAME): $(FILES)
 	zip -r $@ $^
 
 clean:

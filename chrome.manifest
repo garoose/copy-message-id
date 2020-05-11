@@ -1,2 +1,0 @@
-content copy-message-id chrome/content/
-overlay chrome://messenger/content/messenger.xul chrome://copy-message-id/content/messengerWindow.xul
