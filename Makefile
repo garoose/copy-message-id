@@ -1,4 +1,4 @@
-FILES=manifest.json background.js options/* LICENSE
+FILES=manifest.json background.js options/* icons/* LICENSE
 
 XPI_NAME=copy-message-id@j.kahn.xpi
 

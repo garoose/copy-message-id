@@ -33,4 +33,4 @@ function copyMessageID() {
   });
 }
 
-browser.browserAction.onClicked.addListener(copyMessageID);
+browser.messageDisplayAction.onClicked.addListener(copyMessageID);
