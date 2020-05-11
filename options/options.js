@@ -1,5 +1,7 @@
 const prefixInput = document.querySelector("#prefix");
 const suffixInput = document.querySelector("#suffix");
+const copyBracketsInput = document.querySelector("#copyBrackets");
+const urlEncodeInput = document.querySelector("#urlEncode");
 
 /*
 Store the currently selected settings using browser.storage.local.
@@ -8,7 +10,9 @@ function storeSettings() {
   browser.storage.local.set({
     copyID: {
       prefix: prefixInput.value,
-      suffix: suffixInput.value
+      suffix: suffixInput.value,
+      copyBrackets: copyBrackets.checked,
+      urlEncode: urlEncode.checked
     }
   });
 }
@@ -21,6 +25,8 @@ function updateUI(storedSettings) {
   if (storedSettings.copyID) {
     prefixInput.value = storedSettings.copyID.prefix;
     suffixInput.value = storedSettings.copyID.suffix;
+    copyBracketsInput.checked = storedSettings.copyID.copyBrackets;
+    urlEncodeInput.checked = storedSettings.copyID.urlEncode;
   }
 }
 
@@ -35,7 +41,13 @@ const gettingStoredSettings = browser.storage.local.get();
 gettingStoredSettings.then(updateUI, onError);
 
 /*
-On blur, save the currently selected settings.
+On checkbox change, save the currently selected settings.
+*/
+copyBracketsInput.addEventListener("change", storeSettings);
+urlEncodeInput.addEventListener("change", storeSettings);
+
+/*
+On textbox blur, save the currently selected settings.
 */
 prefixInput.addEventListener("blur", storeSettings);
 suffixInput.addEventListener("blur", storeSettings);

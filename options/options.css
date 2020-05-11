@@ -5,17 +5,11 @@ body {
   font-weight: 300;
 }
 
-
-.title {
-  font-size: 1.2em;
-  margin-bottom: 0.5em;
+.textLabel {
+  margin-left: 1.0em;
 }
 
-label {
-  float: right;
-}
-
-input {
+input[type="text"] {
   margin: 0.5em;
   width: 450px;
   height: 2.0em;

@@ -8,17 +8,24 @@ function copyMessageID() {
     var message = messages.messages[0];
     browser.messages.getFull(message.id).then((parts) => {
       var message_id = parts.headers["message-id"][0];
-      // Remove the brackets from the message-id to maintain backwards compatability.
-      if (message_id[0] == '<' && message_id[message_id.length - 1] == '>') {
-        message_id = message_id.slice(1,-1);
-      }
       console.log(message_id);
       var prefix = "";
       var suffix = "";
+      var brackets = false;
+      var encode = false;
       browser.storage.local.get(data => {
         if (data.copyID) {
           prefix = data.copyID.prefix;
           suffix = data.copyID.suffix;
+          brackets = data.copyID.copyBrackets;
+          encode = data.copyID.urlEncode;
+        }
+        // Remove the brackets from the message-id to maintain backwards compatability.
+        if (!brackets && message_id[0] == '<' && message_id[message_id.length - 1] == '>') {
+          message_id = message_id.slice(1,-1);
+        }
+        if (encode) {
+          message_id = encodeURIComponent(message_id);
         }
         console.log("prefix: " + prefix + " Suffix: " + suffix);
         var s = prefix + message_id + suffix
