@@ -3,7 +3,7 @@
 	"applications": {
 		"gecko": {
 			"id": "copy-message-id@j.kahn",
-			"strict_min_version": "68.3"
+			"strict_min_version": "68.3.0"
 		}
 	},
 	"name": "Copy Message ID",
