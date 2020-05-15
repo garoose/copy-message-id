@@ -66,6 +66,8 @@ function copyMessageID() {
             console.error("No Message-ID found in raw email text");
             return;
           }
+          // Remove whitespace from the end of the string.
+          message_id = message_id.trimEnd();
           doCopy(message_id, options);
         })
         .catch(console.error);
