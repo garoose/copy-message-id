@@ -45,8 +45,8 @@ function copyMessageID() {
         browser.messages.getRaw(message.id).then(raw => {
           // Split into header and body by splitting on double newline.
           var parts = raw.split(/\n\n|\r\n\r\n|\r\r/);
-          // Split into each line
-          var lines = parts[0].match(/^.*(\n|\r\n|\r)/gm);
+          // Split into each line and maintain whitepsace
+          var lines = parts[0].match(/^.*((\n|\r\n|\r)|$)/gm);
           var message_id = "";
           for (var i = 0; i < lines.length; i++) {
             var line = lines[i];
@@ -55,8 +55,8 @@ function copyMessageID() {
               message_id = line;
             } else if (message_id != "") {
               // Subsequent lines of a message ID spread across multiple lines
-              // must start with a space
-              if (line[0] != " ") {
+              // must start with whitespace
+              if (!/^\s/.test(line)) {
                 break;
               }
               message_id += line;
