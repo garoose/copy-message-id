@@ -1,0 +1,26 @@
+From: Pete(A nice \) chap) <pete(his account)@silly.test(his host)>
+To:A Group(Some people)
+    :Chris Jones <c@(Chris's host.)public.example>,
+        joe@example.org,
+ John <jdoe@one.test> (my dear friend); (the end of the group)
+Subject: Test folded uppercase commentfold id commentfold nonlast
+Cc:(Empty list)(start)Hidden recipients  :(nobody(that I know))  ;
+MESSAGE-ID:       (Alice
+    went home)         <test-folded-uppercase-commentfold-id-commentfold-nonlast@example.com>         (to give (me
+ some pizza) italian pizza, sure)
+Date: Thu,
+     13
+       Feb
+         1969
+     23:32
+              -0330 (Newfoundland Time)
+
+The test settings are:
+
+- The Message-ID header is a folded row.
+- The key is all uppercase.
+- It has comments with folding inside the comment before the ID.
+- It has comments with folding inside the comment after the ID.
+- There is a header after Message-ID. But it's not a canonical header, but a weird header.
+
+Happy testing!
