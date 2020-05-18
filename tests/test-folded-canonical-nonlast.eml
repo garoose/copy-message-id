@@ -1,0 +1,14 @@
+From: John Doe <jdoe@machine.example>
+To: Mary Smith <mary@example.net>
+Subject: Test folded canonical nonlast
+Message-ID:
+	<test-folded-canonical-nonlast@example.com>
+Date: Sun, 17 May 2020 13:28:00 +0200
+
+The test settings are:
+
+- The Message-ID header is a folded row.
+- The content is a canonical ID in the next row, beginning with a tab.
+- There is a canonical header after Message-ID.
+
+Happy testing!

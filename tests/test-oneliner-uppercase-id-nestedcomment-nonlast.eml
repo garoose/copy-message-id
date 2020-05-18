@@ -1,0 +1,14 @@
+From: John Doe <jdoe@machine.example>
+To: Mary Smith <mary@example.net>
+Subject: Test oneliner uppercase id nestedcomment nonlast
+MESSAGE-ID: <test-oneliner-uppercase-id-nestedcomment-nonlast@example.com>  ( with some      ( n e s t e d (comments ) to ) pro-cess )
+Date: Sun, 17 May 2020 13:28:00 +0200
+
+The test settings are:
+
+- The Message-ID header is non-folded (= oneliner).
+- The key is all uppercase.
+- There're three nested comments after the ID.
+- There is a canonical header after Message-ID.
+
+Happy testing!

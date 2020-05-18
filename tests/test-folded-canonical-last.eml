@@ -1,0 +1,14 @@
+From: John Doe <jdoe@machine.example>
+To: Mary Smith <mary@example.net>
+Subject: Test folded canonical last
+Date: Sun, 17 May 2020 13:28:00 +0200
+Message-ID:
+ <test-folded-canonical-last@example.com>
+
+The test settings are:
+
+- The Message-ID header is a folded row.
+- The content is a canonical ID in the next row, beginning with a space.
+- The Message-ID is the last header.
+
+Happy testing!

@@ -1,0 +1,25 @@
+From: John Doe <jdoe@machine.example>
+To: Mary Smith <mary@example.net>
+Subject: Test invalid weird last
+Date: Sun, 17 May 2020 13:28:00 +0200
+Message-ID:    badly
+ formatted
+        identifier
+  as             missing the
+        angle brackets ) and at-sign
+        and have
+  unbalanced (
+    parentheses
+     > so here it is: >
+         - Test
+         - invalid
+         - weird
+         - last
+
+The test settings are:
+
+- The Message-ID header is invalid.
+- The content has all the bad things you can imagine: Only right-sided angle brackets, spaces, CRLF, unbalanced parentheses...
+- The Message-ID is the last header.
+
+Happy testing!

@@ -1,0 +1,13 @@
+From: John Doe <jdoe@machine.example>
+To: Mary Smith <mary@example.net>
+Subject: Test invalid nobrackets last
+Date: Sun, 17 May 2020 13:28:00 +0200
+Message-ID: test-invalid-nobrackets-last@example.com
+
+The test settings are:
+
+- The Message-ID header is invalid.
+- There are missing brackets.
+- The Message-ID is the last header.
+
+Happy testing!

@@ -1,0 +1,8 @@
+# As per this stack overflow recommendation we will "protect" the CRLF of the
+# .eml files by setting a git attribute:
+# https://stackoverflow.com/questions/61845148/how-to-tell-git-to-preserve-crlf-specifically-for-a-single-set-of-files-mark-a/61851378
+#
+# Dcoumented here in the official documentation that .gitattributes can go in a subdirectory:
+# https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes
+
+*.eml text eol=crlf
