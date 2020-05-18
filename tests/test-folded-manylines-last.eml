@@ -1,0 +1,32 @@
+From: John Doe <jdoe@machine.example>
+To: Mary Smith <mary@example.net>
+Subject: Test folded manylines last
+Date: Sun, 17 May 2020 13:28:00 +0200
+Message-ID:
+ (mary
+  (had
+   (a
+    (little
+     (boy)
+      little)
+       a)
+        had)
+         mary)
+          <test-folded-manylines-last@example.com>
+         (is
+        (a
+       (nice
+      (song
+     (by SNAP!)
+    song)
+   nice)
+  a)
+ is)
+
+The test settings are:
+
+- The Message-ID header is a folded row.
+- The content is a many-lines fold.
+- The Message-ID is the last header.
+
+Happy testing!
