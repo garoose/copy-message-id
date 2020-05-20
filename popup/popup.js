@@ -1,4 +1,6 @@
 
+copyMessageID()
+
 function doCopy(message_id, options) {
   console.log(message_id);
   // Remove the brackets from the message-id to maintain backwards compatability.
@@ -14,16 +16,14 @@ function doCopy(message_id, options) {
   var s = options.prefix + message_id + options.suffix;
   navigator.clipboard.writeText(s).then(() => {
     console.log("successfully copied message ID");
-  },
-  () => {
-    console.log("failed to copy message ID");
-  });
+    reportSuccess(s);
+  }).catch(reportError);
 }
 
 function copyMessageID() {
   browser.mailTabs.getSelectedMessages().then(messages => {
     if (!messages || messages.messages.length == 0) {
-      console.log("No message selected");
+      reportError("No message selected");
       return;
     }
 
@@ -63,25 +63,50 @@ function copyMessageID() {
             }
           }
           if (message_id == "") {
-            console.error("No Message-ID found in raw email text");
+            reportError("No Message-ID found in raw email text");
             return;
           }
           // Remove whitespace from the end of the string.
           message_id = message_id.trimEnd();
           doCopy(message_id, options);
         })
-        .catch(console.error);
+        .catch(reportError);
       } else {
         browser.messages.getFull(message.id)
         .then(parts => {
-          doCopy(parts.headers["message-id"][0], options);
+          message_id = parts.headers["message-id"][0]
+          doCopy(message_id, options);
         })
-        .catch(console.error);
+        .catch(reportError);
       }
-    })
-    .catch(console.error);
+    });
+    // Ignore error because Thunderbird always complains about browser.storage.local.get(...)
+    // being undefined for some reason.
   })
-  .catch(console.error);
+  .catch(reportError);
 }
 
-browser.messageDisplayAction.onClicked.addListener(copyMessageID);
+function reportSuccess(message_id) {
+  var time = 1500;
+  document.querySelector("#message-id").append(message_id);
+  var timeout = setTimeout(() => {  window.close(); }, time);
+  // Stop the window close timeout if the user is interacting with it.
+  document.onmouseover = function() {
+    clearTimeout(timeout);
+  }
+  document.onmouseout = function() {
+    timeout = setTimeout(() => {  window.close(); }, time);
+  }
+}
+
+/**
+ * There was an error executing the script.
+ * Display the popup's error message, and hide the normal UI.
+ */
+function reportError(error) {
+  document.body.style.background = "#C80000";
+  document.querySelector("#popup-content").classList.add("hidden");
+  document.querySelector("#error-string").append(error);
+  document.querySelector("#error-content").classList.remove("hidden");
+  console.error(`Failed to copy message ID: ${error.message}`);
+}
