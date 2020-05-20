@@ -3,7 +3,7 @@
 	"applications": {
 		"gecko": {
 			"id": "copy-message-id@j.kahn",
-			"strict_min_version": "68.3.0"
+			"strict_min_version": "68.7.0"
 		}
 	},
 	"name": "Copy Message ID",
@@ -19,5 +19,5 @@
 		"default_title": "Copy Message ID",
 		"default_icon": "icons/button.png"
 	},
-	"version": "1.1.0"
+	"version": "1.2.0"
 }
