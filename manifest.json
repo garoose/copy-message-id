@@ -12,12 +12,10 @@
 		"page": "options/options.html"
 	},
 	"permissions": ["storage", "messagesRead", "clipboardWrite"],
-	"background": {
-		"scripts": ["background.js"]
-	},
 	"message_display_action": {
 		"default_title": "Copy Message ID",
-		"default_icon": "icons/button.png"
+		"default_icon": "icons/button.png",
+		"default_popup": "popup/popup.html"
 	},
 	"version": "1.2.0"
 }
