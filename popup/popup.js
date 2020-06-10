@@ -1,7 +1,70 @@
+// Copy the message ID!
+copyMessageID().catch(reportError);
 
-copyMessageID()
+async function copyMessageID() {
+  let tabs = await browser.tabs.query({active: true, currentWindow: true});
+  if (tabs.length != 1) {
+    throw new Error("Expected a single selected tab (got " + tabs.length + ")");
+  }
 
-function doCopy(message_id, options) {
+  tabID = tabs[0].id;
+
+  let message = await browser.messageDisplay.getDisplayedMessage(tabID);
+  if (!message) {
+    throw new Error("No message selected");
+  }
+
+  var options = {
+    prefix: "",
+    suffix: "",
+    copyBrackets: false,
+    urlEncode: false,
+    raw: false
+  };
+  let config = await browser.storage.local.get("copyID");
+  if (config.copyID) {
+    options = config.copyID;
+  }
+
+  var message_id = "";
+  if (options.raw) {
+    let raw = await browser.messages.getRaw(message.id);
+
+    // Split into header and body by splitting on double newline.
+    var parts = raw.split(/\n\n|\r\n\r\n|\r\r/);
+
+    // Split into each line and maintain whitepsace
+    var lines = parts[0].match(/^.*((\n|\r\n|\r)|$)/gm);
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      // Match the Message-ID tag, case insensitive.
+      if (line.match(/^message-id:/im)) {
+        message_id = line;
+      } else if (message_id != "") {
+        // Subsequent lines of a message ID spread across multiple lines
+        // must start with whitespace
+        if (!/^\s/.test(line)) {
+          break;
+        }
+        message_id += line;
+      }
+    }
+    if (message_id == "") {
+      throw new Error("No Message-ID found in raw email text");
+    }
+
+    // Remove whitespace from the end of the string.
+    message_id = message_id.trimEnd();
+  } else {
+    let parts = await browser.messages.getFull(message.id);
+    message_id = parts.headers["message-id"][0];
+  }
+
+  await doCopy(message_id, options);
+}
+
+async function doCopy(message_id, options) {
   console.log(message_id);
   // Remove the brackets from the message-id to maintain backwards compatability.
   if (!options.copyBrackets &&
@@ -13,86 +76,10 @@ function doCopy(message_id, options) {
     message_id = encodeURIComponent(message_id);
   }
   console.log("prefix: " + options.prefix + " Suffix: " + options.suffix);
-  var s = options.prefix + message_id + options.suffix;
-  navigator.clipboard.writeText(s).then(() => {
-    console.log("successfully copied message ID");
-    reportSuccess(s);
-  }).catch(reportError);
-}
-
-function copyMessageID() {
-  browser.tabs.query({active: true, currentWindow: true}).then(tabs => {
-    if (tabs.length != 1) {
-      reportError("Expect a single selected tab (got " + tabs.length + ")");
-      return
-    }
-    __copyMessageID(tabs[0].id);
-  })
-  .catch(reportError);
-}
-
-function __copyMessageID(tabID) {
-  browser.messageDisplay.getDisplayedMessage(tabID).then(message => {
-    if (!message) {
-      reportError("No message selected");
-      return;
-    }
-
-    var options = {
-      prefix: "",
-      suffix: "",
-      copyBrackets: false,
-      urlEncode: false,
-      raw: false
-    };
-    browser.storage.local.get("copyID", data => {
-      if (data.copyID) {
-        options = data.copyID;
-      }
-
-      if (options.raw) {
-        browser.messages.getRaw(message.id).then(raw => {
-          // Split into header and body by splitting on double newline.
-          var parts = raw.split(/\n\n|\r\n\r\n|\r\r/);
-          // Split into each line and maintain whitepsace
-          var lines = parts[0].match(/^.*((\n|\r\n|\r)|$)/gm);
-          var message_id = "";
-          for (var i = 0; i < lines.length; i++) {
-            var line = lines[i];
-            // Match the Message-ID tag, case insensitive.
-            if (line.match(/^message-id:/im)) {
-              message_id = line;
-            } else if (message_id != "") {
-              // Subsequent lines of a message ID spread across multiple lines
-              // must start with whitespace
-              if (!/^\s/.test(line)) {
-                break;
-              }
-              message_id += line;
-            }
-          }
-          if (message_id == "") {
-            reportError("No Message-ID found in raw email text");
-            return;
-          }
-          // Remove whitespace from the end of the string.
-          message_id = message_id.trimEnd();
-          doCopy(message_id, options);
-        })
-        .catch(reportError);
-      } else {
-        browser.messages.getFull(message.id)
-        .then(parts => {
-          message_id = parts.headers["message-id"][0]
-          doCopy(message_id, options);
-        })
-        .catch(reportError);
-      }
-    });
-    // Ignore error because Thunderbird always complains about browser.storage.local.get(...)
-    // being undefined for some reason.
-  })
-  .catch(reportError);
+  let s = options.prefix + message_id + options.suffix;
+  await navigator.clipboard.writeText(s);
+  console.log("successfully copied message ID");
+  reportSuccess(s);
 }
 
 function reportSuccess(message_id) {
@@ -115,7 +102,7 @@ function reportSuccess(message_id) {
 function reportError(error) {
   document.body.style.background = "#C80000";
   document.querySelector("#popup-content").classList.add("hidden");
-  document.querySelector("#error-string").append(error);
+  document.querySelector("#error-string").append(error.message);
   document.querySelector("#error-content").classList.remove("hidden");
   console.error(`Failed to copy message ID: ${error.message}`);
 }
