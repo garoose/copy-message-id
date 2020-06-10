@@ -21,8 +21,19 @@ function doCopy(message_id, options) {
 }
 
 function copyMessageID() {
-  browser.mailTabs.getSelectedMessages().then(messages => {
-    if (!messages || messages.messages.length == 0) {
+  browser.tabs.query({active: true, currentWindow: true}).then(tabs => {
+    if (tabs.length != 1) {
+      reportError("Expect a single selected tab (got " + tabs.length + ")");
+      return
+    }
+    __copyMessageID(tabs[0].id);
+  })
+  .catch(reportError);
+}
+
+function __copyMessageID(tabID) {
+  browser.messageDisplay.getDisplayedMessage(tabID).then(message => {
+    if (!message) {
       reportError("No message selected");
       return;
     }
@@ -39,8 +50,6 @@ function copyMessageID() {
         options = data.copyID;
       }
 
-      // Select the first message if multiple are selected
-      var message = messages.messages[0];
       if (options.raw) {
         browser.messages.getRaw(message.id).then(raw => {
           // Split into header and body by splitting on double newline.
